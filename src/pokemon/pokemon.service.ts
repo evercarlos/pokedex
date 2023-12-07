@@ -4,6 +4,7 @@ import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { Model, isValidObjectId } from 'mongoose';
 import { Pokemon } from './entities/pokemon.entity';
 import { InjectModel } from '@nestjs/mongoose';
+import { error } from 'console';
 
 @Injectable()
 export class PokemonService {
@@ -22,11 +23,7 @@ export class PokemonService {
       return pokemon;
 
     } catch(error) {
-       if(error.code === 11000) {
-         throw new BadRequestException(`Pokemon exists in db ${ JSON.stringify( error.keyValue ) }`);
-       } else {
-          throw new InternalServerErrorException(`Can't create Pokemon - Check server logs`);
-       }
+      this.handleExceptions(error);
     }
   }
 
@@ -71,15 +68,30 @@ export class PokemonService {
 
       return {...pokemon.toJSON(), ...updatePokemonDto};
     } catch(error) {
-      if(error.code === 11000) {
-        throw new BadRequestException(`Pokemon exists in db ${ JSON.stringify( error.keyValue ) }`);
-      } else {
-        throw new InternalServerErrorException(`Can't update Pokemon - Check server logs`);
-      }
+      this.handleExceptions(error);
    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(id: string) {
+    // Dos consultas a la bd
+    //const pokemon = await this.findOne(id);
+    //await pokemon.deleteOne();
+    // Validar y eliminar en una sola consulta
+    const { deletedCount } = await this.pokemonModel.deleteOne( {_id: id}); 
+    if(deletedCount === 0) {
+      throw new BadRequestException(`Pokemon with id ${id} not found`);
+    }
+    return;
   }
+
+
+
+  private handleExceptions(error: any) {
+    if(error.code === 11000) {
+      throw new BadRequestException(`Pokemon exists in db ${ JSON.stringify( error.keyValue ) }`);
+    } else {
+      throw new InternalServerErrorException(`Can't update Pokemon - Check server logs`);
+    }
+  }
+  
 }

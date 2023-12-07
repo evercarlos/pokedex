@@ -4,6 +4,8 @@
 
 ### Para la carpta publica(archivos estaticos)
 - Instalar: npm i @nestjs/serve-static
+### Axios
+npm install axios@0.27.2 (Usamos esta versión por el error "cannot read properties of undefined")
 
 # Ejecutar en desarro
 1. clonar el repositorio
@@ -23,3 +25,10 @@ docker-compose up -d
 ### Stack usado
 * MongoDB
 * Nest
+* https://pokeapi.co
+
+#### COMANDOS NESTJS ####
+## Crear un pipe
+- nest g pi common/pipes/parseMongoId --no-spec
+## Crear un seed 
+- nest g res seed --no-spec
