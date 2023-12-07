@@ -9,6 +9,10 @@ async function bootstrap() {
     new ValidationPipe({ // pipe global para dto
         whitelist: true, // solo acepta la data qu estoy esperando (dto)
         forbidNonWhitelisted: true, // Si propidades que no estan en el dto, muestra mensaje que "no existe esos atributos"
+        transform:true,  // paa convertir nuevos enviados en string por el queryParameters a number
+        transformOptions: {
+          enableImplicitConversion: true // paa convertir nuevos enviados en string por el queryParameters a number
+        }
       }),
     );
     
