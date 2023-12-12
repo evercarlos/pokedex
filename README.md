@@ -20,8 +20,17 @@ npm i -g @nest/cli
 4. Levantar la base de datos
 ```
 docker-compose up -d
+
+5. Clonar el archivo ```__.env.template__``` y renombrar la copia a __.
+env__
+
+6. LLenar las variables de entorno definidas en el ```.env```
+
+7. Ejecutar la aplicación en dev:
+npm run start:dev
+
 ```
-5. Reenconstruir la base de datos con la semilla (seed)
+8. Reenconstruir la base de datos con la semilla (seed)
 ```
 http://localhost:3000/api/v2/seed
 ```
@@ -32,8 +41,12 @@ http://localhost:3000/api/v2/seed
 * https://pokeapi.co
 
 #### COMANDOS NESTJS ####
-## Crear un pipe
+* Crear un pipe
 - nest g pi common/pipes/parseMongoId --no-spec
-## Crear un seed 
+* Crear un seed 
 - nest g res seed --no-spec
-
+* Para variables de entorno
+npm i @nestjs/config
+* Para validar lanzar erroes y que unobjeto luzca de los esperando
+* En este caso usaremos para nuestras variables de entorno
+- npm in joi
